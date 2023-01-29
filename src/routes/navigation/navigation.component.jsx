@@ -15,11 +15,8 @@ import './navigation.styles.scss';
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
-  const { isCartOpen, setIsCartOpen } = useContext(CartContext);
+  const { isCartOpen } = useContext(CartContext);
 
-  const cartHandler = () => {
-    setIsCartOpen(!isCartOpen);
-  };
   return (
     <Fragment>
       <div className="navigation">
