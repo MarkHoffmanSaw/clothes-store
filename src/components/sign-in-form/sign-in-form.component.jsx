@@ -10,6 +10,7 @@ import {
 } from '../../utils/firebase/firebase.utils';
 
 import './sign-in-form.styles.scss';
+import { useNavigate } from 'react-router-dom';
 
 const defaultFormFields = {
   email: '',
@@ -20,6 +21,8 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
 
   const { email, password } = formFields;
+
+  const navigate = useNavigate();
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -36,6 +39,7 @@ const SignInForm = () => {
       await signInAuthUserWithEmailAndPassword(email, password);
 
       resetFormFields();
+      navigate('/');
     } catch (error) {
       if (error.code === 'auth/wrong-password') {
         alert('Incorrect email or password');
