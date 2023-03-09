@@ -77,7 +77,10 @@ export const getCategoriesAndDocuments = async () => {
 };
 
 // Create a document in the Firebase collection:
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (
+  userAuth,
+  additionalDetails = {}
+) => {
   if (!userAuth) return;
 
   const userDocRef = doc(db, 'users', userAuth.uid);
@@ -99,7 +102,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
     }
   }
 
-  return userDocRef;
+  return userSnapshot;
 };
 
 // Create user auth data with email & password
@@ -121,3 +124,16 @@ export const signOutUser = async () => await signOut(auth);
 // Check the current auth session
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubcsribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubcsribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
+};
